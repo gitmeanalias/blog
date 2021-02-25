@@ -3,6 +3,8 @@ package com.project.blog.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "comments")
@@ -20,6 +22,10 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "comment")
+    private List<Reply> replies = new ArrayList<Reply>();
+
 
     public Comment() {
         //
@@ -57,5 +63,13 @@ public class Comment {
 
     public Long getPostId() {
         return post.getId();
+    }
+
+    public List<Reply> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<Reply> replies) {
+        this.replies = replies;
     }
 }
